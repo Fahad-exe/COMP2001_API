@@ -8,11 +8,11 @@ namespace COMP2001_API.Models
 {
     public class DataAccess
     {
-        private string connection;
+        private readonly string _connection;
 
-        public DataAccess()
+        public DataAccess(IConfiguration configuration)
         {
-            connection = _configuration.GetConnectionString("COMP2001_DB");
+            _connection = configuration.GetConnectionString("COMP2001_DB");
         }
 
     }

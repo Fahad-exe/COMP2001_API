@@ -12,6 +12,13 @@ namespace COMP2001_API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly DataAccess _database;
+
+        public UsersController(DataAccess database)
+        {
+            _database = database;
+        }
+
         // GET: api/Users
         [HttpGet]
         public IEnumerable<string> Get([FromBody] User usr)
@@ -45,6 +52,7 @@ namespace COMP2001_API.Controllers
         private bool getValidation(User usr)
         {
             bool validation = false;
+
 
             return validation;
            
