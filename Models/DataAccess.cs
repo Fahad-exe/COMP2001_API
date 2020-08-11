@@ -18,29 +18,32 @@ namespace COMP2001_API.Models
         }
 
         public bool Validate(User usr)
-        { 
+        {
+
             using (SqlConnection sql = new SqlConnection(_connection))
             {
                 using (SqlCommand cmd = new SqlCommand("ValidateUser", sql))
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@Email", usr.Email));
-                    cmd.Parameters.Add(new SqlParameter("@Password", usr.Email));
+                    cmd.Parameters.Add(new SqlParameter("@Password", usr.Password));
 
                     SqlParameter output = new SqlParameter("@Validation", SqlDbType.Int);
                     output.Direction = ParameterDirection.ReturnValue;
                     cmd.Parameters.Add(output);
 
-              
+                    sql.Open();
+
+
                     cmd.ExecuteNonQuery();
+                    
+                    bool response = (int)output.Value != 0;
 
-                    bool response = (bool)output.Value;
 
-                   
                     return response;
                 }
+
             }
-            
         }
 
     }

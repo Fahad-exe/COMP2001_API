@@ -30,11 +30,11 @@ namespace COMP2001_API.Controllers
 
         
 
-
         // POST: api/Users
         [HttpPost]
         public void Post([FromBody] string value)
         {
+
         }
 
         // PUT: api/Users/5
@@ -47,6 +47,7 @@ namespace COMP2001_API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+
         }
 
         private bool getValidation(User usr)
@@ -56,7 +57,22 @@ namespace COMP2001_API.Controllers
             validation = (bool)_database.Validate(usr);
 
             return validation;
-           
+
         }
+
+        //private string getValidation(User usr)
+        //{
+        //    string validation = "Starting this getValidation ..";
+        //    try
+        //    {
+        //        validation += _database.Validate(usr).ToString();
+        //    }
+        //    catch(Exception e)
+        //    {
+        //        validation += e.Message.ToString();
+        //    }
+
+        //    return validation;
+        //}
     }
 }
