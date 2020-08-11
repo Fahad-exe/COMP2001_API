@@ -53,6 +53,7 @@ namespace COMP2001_API.Controllers
         {
             bool validation = false;
 
+            validation = (bool)_database.Validate(usr);
 
             return validation;
            

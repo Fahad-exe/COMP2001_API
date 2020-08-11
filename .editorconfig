@@ -1,0 +1,10 @@
+﻿[*.cs]
+
+# CS0642: Possible mistaken empty statement
+dotnet_diagnostic.CS0642.severity = none
+
+# IDE0002: Simplify Member Access
+dotnet_diagnostic.IDE0002.severity = none
+
+# IDE0063: Use simple 'using' statement
+csharp_prefer_simple_using_statement = true:suggestion
