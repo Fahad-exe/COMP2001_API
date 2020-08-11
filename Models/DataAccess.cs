@@ -46,5 +46,30 @@ namespace COMP2001_API.Models
             }
         }
 
+        public void Register(User usr, out string responseMessage)
+        {
+            using (SqlConnection sql = new SqlConnection(_connection))
+            {
+                using (SqlCommand cmd = new SqlCommand("Register", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@Email", usr.Email));
+                    cmd.Parameters.Add(new SqlParameter("@Password", usr.Password));
+                    cmd.Parameters.Add(new SqlParameter("@FirstName", usr.First_Name));
+                    cmd.Parameters.Add(new SqlParameter("@LastName", usr.Last_Name));
+
+                    SqlParameter output = new SqlParameter("@ResponseMessage", SqlDbType.NVarChar, 250);
+                    output.Direction = ParameterDirection.Output;
+
+                    cmd.Parameters.Add(output);
+
+                    sql.Open();
+
+
+                    cmd.ExecuteNonQuery();
+                    responseMessage = output.Value.ToString();
+                }
+            }
+        }
     }
 }

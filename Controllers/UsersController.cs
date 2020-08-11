@@ -20,27 +20,43 @@ namespace COMP2001_API.Controllers
         }
 
         // GET: api/Users
-        [HttpGet]
-        public IEnumerable<string> Get([FromBody] User usr)
+        [HttpGet(Name="GetUsers")]
+        public IActionResult Get([FromBody] User usr)
         {
             bool Verified = getValidation(usr);
 
-            return new string[] { "Verfied", Verified.ToString() };
+            return Ok(new string[] { "Verfied", Verified.ToString() });
         }
 
         
 
         // POST: api/Users
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] User usr)
         {
+            string responseMessage;
 
+            register(usr, out responseMessage);
+
+            int ResponseCode = Convert.ToInt32(responseMessage);
+
+            switch (ResponseCode)
+            {
+                case 404: return BadRequest();
+                case 208: return StatusCode(208);
+
+                default: return new JsonResult(new string[] { "UserID", responseMessage }) { StatusCode = StatusCodes.Status201Created };
+            }
+  
         }
+
+        
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+
         }
 
         // DELETE: api/ApiWithActions/5
@@ -58,6 +74,20 @@ namespace COMP2001_API.Controllers
 
             return validation;
 
+        }
+
+        private void register(User usr, out string responseMessage)
+        {
+            try
+            {
+                _database.Register(usr, out responseMessage);
+            }
+            catch(Exception e)
+            {
+                responseMessage = e.Message;
+            }
+
+           
         }
 
         //private string getValidation(User usr)
