@@ -20,7 +20,7 @@ namespace COMP2001_API.Controllers
         }
 
         // GET: api/Users
-        [HttpGet(Name="GetUsers")]
+        [HttpGet]
         public IActionResult Get([FromBody] User usr)
         {
             bool Verified = getValidation(usr);
@@ -54,16 +54,19 @@ namespace COMP2001_API.Controllers
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] User usr)
         {
-
+            
+                _database.Update(usr, id);
+                return NoContent();
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-
+            _database.Delete(id);
+            return NoContent();
         }
 
         private bool getValidation(User usr)

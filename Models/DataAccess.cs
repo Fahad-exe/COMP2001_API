@@ -71,5 +71,53 @@ namespace COMP2001_API.Models
                 }
             }
         }
+
+        public void Update(User usr, int id)
+        {
+            using (SqlConnection sql = new SqlConnection(_connection))
+            {
+                using (SqlCommand cmd = new SqlCommand("UpdateUser", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                        //Send a dbnull if the string is empty
+                        cmd.Parameters.Add(new SqlParameter("@Email", string.IsNullOrEmpty(usr.Email) ? (object)DBNull.Value : usr.Email));
+
+                        cmd.Parameters.Add(new SqlParameter("@FirstName", string.IsNullOrEmpty(usr.First_Name) ? (object)DBNull.Value : usr.First_Name));
+
+                        cmd.Parameters.Add(new SqlParameter("@Password", string.IsNullOrEmpty(usr.Password) ? (object)DBNull.Value : usr.Password));
+
+                        cmd.Parameters.Add(new SqlParameter("@LastName", string.IsNullOrEmpty(usr.Last_Name) ? (object)DBNull.Value : usr.Last_Name));
+
+                        cmd.Parameters.Add(new SqlParameter("@id", id));
+
+
+                        sql.Open();
+
+
+                        cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (SqlConnection sql = new SqlConnection(_connection))
+            {
+                using (SqlCommand cmd = new SqlCommand("DeleteUser", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    sql.Open();
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+        }
+
+       
     }
 }
