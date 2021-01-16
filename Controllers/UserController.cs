@@ -10,11 +10,11 @@ namespace COMP2001_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly DataAccess _database;
 
-        public UsersController(DataAccess database)
+        public UserController(DataAccess database)
         {
             _database = database;
         }
@@ -35,15 +35,35 @@ namespace COMP2001_API.Controllers
         public IActionResult Post([FromBody] User usr)
         {
             string responseMessage;
+            int ResponseCode;
 
             register(usr, out responseMessage);
 
-            int ResponseCode = Convert.ToInt32(responseMessage);
-
+            if(responseMessage.Length > 0)
+            {
+                try
+                {
+                    ResponseCode = Convert.ToInt32(responseMessage);
+                }
+                catch(Exception e)
+                {
+                    return Ok(new string[] { "Error", e.ToString(), "ResponseMessage", responseMessage }); 
+                }
+            }
+            else
+            {
+                ResponseCode = 418;
+            }
+           
+           
             switch (ResponseCode)
             {
                 case 404: return BadRequest();
+                    break;
+                case 418: return StatusCode(418);
+                    break;
                 case 208: return StatusCode(208);
+                    break;
 
                 default: return new JsonResult(new string[] { "UserID", responseMessage }) { StatusCode = StatusCodes.Status201Created };
             }

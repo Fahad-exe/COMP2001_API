@@ -7,8 +7,8 @@ namespace COMP2001_API.Models
 {
     public class User
     {
-        public string First_Name { get; set; }
-        public string Last_Name { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
     }

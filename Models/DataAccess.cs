@@ -55,8 +55,8 @@ namespace COMP2001_API.Models
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@Email", usr.Email));
                     cmd.Parameters.Add(new SqlParameter("@Password", usr.Password));
-                    cmd.Parameters.Add(new SqlParameter("@FirstName", usr.First_Name));
-                    cmd.Parameters.Add(new SqlParameter("@LastName", usr.Last_Name));
+                    cmd.Parameters.Add(new SqlParameter("@FirstName", usr.firstName));
+                    cmd.Parameters.Add(new SqlParameter("@LastName", usr.lastName));
 
                     SqlParameter output = new SqlParameter("@ResponseMessage", SqlDbType.NVarChar, 250);
                     output.Direction = ParameterDirection.Output;
@@ -83,11 +83,11 @@ namespace COMP2001_API.Models
                         //Send a dbnull if the string is empty
                         cmd.Parameters.Add(new SqlParameter("@Email", string.IsNullOrEmpty(usr.Email) ? (object)DBNull.Value : usr.Email));
 
-                        cmd.Parameters.Add(new SqlParameter("@FirstName", string.IsNullOrEmpty(usr.First_Name) ? (object)DBNull.Value : usr.First_Name));
+                        cmd.Parameters.Add(new SqlParameter("@FirstName", string.IsNullOrEmpty(usr.firstName) ? (object)DBNull.Value : usr.firstName));
 
                         cmd.Parameters.Add(new SqlParameter("@Password", string.IsNullOrEmpty(usr.Password) ? (object)DBNull.Value : usr.Password));
 
-                        cmd.Parameters.Add(new SqlParameter("@LastName", string.IsNullOrEmpty(usr.Last_Name) ? (object)DBNull.Value : usr.Last_Name));
+                        cmd.Parameters.Add(new SqlParameter("@LastName", string.IsNullOrEmpty(usr.lastName) ? (object)DBNull.Value : usr.lastName));
 
                         cmd.Parameters.Add(new SqlParameter("@id", id));
 
