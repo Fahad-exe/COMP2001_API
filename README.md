@@ -6,6 +6,11 @@ The API provides the implementation for the [attached yaml file](COMP2001_API.ya
 
 ![screenshot](UsersEndpoints.png)
 
+## Data Layer
+The tables, constraints, stored procedures, view and trigger were created as per the specification.  SQL code is provided in [this file](auth.sql).  
+
+Passwords are not stored in plain text in the database but are hashed.  The Register stored procedure ensures this requirement is enforced.  
+
 
 
 
