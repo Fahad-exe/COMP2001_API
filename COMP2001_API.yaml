@@ -1,0 +1,144 @@
+swagger: "2.0"
+info:
+  description: "This is an authentication API that provides the ability to register and then log in using the end points below."
+  version: "1.0.0"
+  title: "COMP2001 Authenticator"
+  termsOfService: "http://web.socem.plymouth.ac.uk/shirley/"
+  contact:
+    email: "shirley.atkinson@plymouth.ac.uk"
+  license:
+    name: "CC BY-NC-SA 4.0"
+    url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+host: "web.socem.plymouth.ac.uk"
+basePath: "/shirley/auth/api"
+tags:
+- name: "user"
+  description: "Just enough to know about the user"
+schemes:
+- "https"
+- "http"
+paths:
+  /user:
+    post:
+      tags:
+      - "user"
+      summary: "Register a new user"
+      description: "Ought to be done by an authenticated client"
+      operationId: "register"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user ojbect"
+        required: true
+        schema:
+          $ref: "#/definitions/user"
+      responses:
+        "200":
+          description: "successful operation, returns json object 'UserID':0 with user ID number"
+        "208":
+          description: "Call successful, but email already exists and so new entry not made"
+        "404":
+          description: "Bad request"
+    get:
+      tags:
+      - "user"
+      summary: "Checks user email and password match in system"
+      description: ""
+      operationId: "loginUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "email and password required"
+        required: true
+        schema:
+          $ref: "#/definitions/user"
+      responses:
+        "200":
+          description: "successful operation.  Returns json object {'verified': true} if email and password are a match.  False for all other results"
+          
+  /user/{id}:
+    put:
+      tags:
+      - "user"
+      summary: "Update an existing user"
+      description: "Can update name, email, phone or password but can only be done by an logged in user"
+      operationId: "updateUser"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "id of user to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "The details for user.  Blank strings for entries that do not need to change"
+        required: true
+        schema:
+          $ref: "#/definitions/user"
+      responses:
+        "204":
+          description: "Success"
+    delete:
+      tags:
+      - "user"
+      summary: "Delete user"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "email to be updated"
+        required: true
+        type: "string"
+      responses:
+        "204":
+          description: "Success"
+         
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  user:
+    type: "object"
+    properties:
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
